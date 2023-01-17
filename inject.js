@@ -2829,20 +2829,6 @@ function snuAddInfoButton()
 
 }
 
-function mgmAddBackToListButton() {
-     if (typeof g_form == 'undefined') return ; 
-
-    let trgt = document.querySelector('.navbar-right .navbar-btn');
-    if (!trgt) return;
-    let btn = document.createElement("button");
-    btn.type = "submit";
-    btn.id = "btlb";
-    btn.title = "[SN Utils] Go to the list of this record";
-    btn.classList = "btn btn-icon glyphicon glyphicon-list navbar-btn";
-    btn.addEventListener('click', mgmOpenList);
-    trgt.after(btn);
-}
-
 function snuBindPaste(showIcon) {
 
     if (typeof g_form != 'undefined') {
@@ -4650,4 +4636,59 @@ function snuSlashLog(addValue = false) {
     return slashLog;
 }
 
+function mgmAddBackToListButton() {
+    if (typeof g_form == 'undefined') return;
 
+    let trgt = document.querySelector('.navbar-right .navbar-btn');
+    if (!trgt) return;
+    let btn = document.createElement("button");
+    btn.type = "submit";
+    btn.id = "btlb";
+    btn.title = "[SN Utils] Go to the list of this record.\nHold CTRL to open in a new tab.";
+    btn.classList = "btn btn-icon glyphicon glyphicon-list navbar-btn";
+    btn.addEventListener('click', mgmBackToList);
+    trgt.after(btn);
+}
+
+function getParameterValue(name) {
+    name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+    var regexS = "[\\?&]" + name + "=([^&#]*)";
+    var regex = new RegExp(regexS);
+    var results = regex.exec(decodeURIComponent(top.location));
+    if (results == null) {
+        return "";
+    }
+    else {
+        return results[1];
+    }
+}
+
+function mgmBackToList(e) {
+    if (typeof g_form == 'undefined') {
+        try { //get if in iframe
+            g_form = document.getElementById('gsft_main').contentWindow.g_form;
+        } catch (e) {
+            console.log(e);
+        }
+        if (typeof g_form == 'undefined') {
+            return;
+        }
+    }
+
+    var listURL = g_form.getTableName() + '_list.do?sysparm_filter_pinned=true';
+    var listQuery = getParameterValue('sysparm_record_list');//document.URL.parseQuery()['sysparm_record_list'];
+
+    if (listQuery) {
+        listURL += '&sysparm_query=' + listQuery;
+    }
+
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey) {
+        e.preventDefault();
+        window.location = listURL;
+    }
+    else {
+        window.open(listURL, '_blank');
+    }
+
+    return;
+}

@@ -4676,7 +4676,7 @@ function mgmBackToList(e) {
     }
 
     var listURL = g_form.getTableName() + '_list.do?sysparm_filter_pinned=true';
-    var listQuery = getParameterValue('sysparm_record_list');//document.URL.parseQuery()['sysparm_record_list'];
+    var listQuery = getParameterValue('sysparm_record_list');
 
     if (listQuery) {
         listURL += '&sysparm_query=' + listQuery;

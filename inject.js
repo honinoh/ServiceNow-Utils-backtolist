@@ -4644,7 +4644,7 @@ function mgmAddBackToListButton() {
     let btn = document.createElement("button");
     btn.type = "submit";
     btn.id = "btlb";
-    btn.title = "[SN Utils] Go to the list of this record.\nHold CTRL to open in a new tab.";
+    btn.title = "[SN Utils] Go to the list of this record.\nHold CTRL+SHIFT to open in a new tab";
     btn.classList = "btn btn-icon glyphicon glyphicon-list navbar-btn";
     btn.addEventListener('click', mgmBackToList);
     trgt.after(btn);

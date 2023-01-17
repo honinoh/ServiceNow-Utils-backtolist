@@ -1460,6 +1460,7 @@ function snuSettingsAdded() {
         snuAddPersonaliseListHandler();
         snuAddLinkToCachDo();
         snuAddInfoButton();
+        mgmAddBackToListButton();
     }
 
     if (snusettings.hasOwnProperty("slashcommands")) {
@@ -2826,6 +2827,20 @@ function snuAddInfoButton()
     btn.addEventListener('click', snuLoadInfoMessage);
     trgt.after(btn);
 
+}
+
+function mgmAddBackToListButton() {
+     if (typeof g_form == 'undefined') return ; 
+
+    let trgt = document.querySelector('.navbar-right .navbar-btn');
+    if (!trgt) return;
+    let btn = document.createElement("button");
+    btn.type = "submit";
+    btn.id = "btlb";
+    btn.title = "[SN Utils] Go to the list of this record";
+    btn.classList = "btn btn-icon glyphicon glyphicon-list navbar-btn";
+    btn.addEventListener('click', mgmOpenList);
+    trgt.after(btn);
 }
 
 function snuBindPaste(showIcon) {
